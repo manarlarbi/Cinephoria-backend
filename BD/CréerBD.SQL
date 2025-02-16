@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Reservations (
     id_utilisateur   INT NOT NULL REFERENCES Utilisateurs(id_utilisateur) ON DELETE CASCADE,
     id_seance        INT NOT NULL REFERENCES Seances(id_seance) ON DELETE CASCADE,
     date_reservation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    prix_total       DECIMAL(3,2),
+    prix_total       REAL,
     places_reservees TEXT, 
     CONSTRAINT unique_seat_per_session UNIQUE (id_seance, places_reservees)
 );
