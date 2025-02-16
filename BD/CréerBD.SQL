@@ -9,3 +9,14 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
     role           VARCHAR(50) CHECK (role IN ('Utilisateur', 'Employé', 'Administrateur')) DEFAULT 'Utilisateur',
     date_creation  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS Films (
+    id_film     SERIAL PRIMARY KEY,
+    titre       VARCHAR(255) NOT NULL,
+    description TEXT,
+    duree       INT, 
+    genre       VARCHAR(255), 
+    age_minimum INT,
+    affiche_url TEXT,
+    note        INT
+);
