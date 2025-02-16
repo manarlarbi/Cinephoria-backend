@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Films (
     genre       VARCHAR(255), 
     age_minimum INT,
     affiche_url TEXT,
-    note        INT
+    note        REAL
 );
 
 CREATE TABLE IF NOT EXISTS Salles (
