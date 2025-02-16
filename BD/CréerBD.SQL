@@ -30,3 +30,39 @@ CREATE TABLE IF NOT EXISTS Salles (
     nombre_places INT NOT NULL,          
     qualite      VARCHAR(50)            
 );
+
+
+CREATE TABLE IF NOT EXISTS Seances (
+    id_seance   SERIAL PRIMARY KEY,
+    id_film     INT NOT NULL REFERENCES Films(id_film) ON DELETE CASCADE,
+    id_salle    INT NOT NULL REFERENCES Salles(id_salle) ON DELETE CASCADE,
+    heure_debut TIMESTAMP NOT NULL,
+    heure_fin   TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Reservations (
+    id_reservation   SERIAL PRIMARY KEY,
+    id_utilisateur   INT NOT NULL REFERENCES Utilisateurs(id_utilisateur) ON DELETE CASCADE,
+    id_seance        INT NOT NULL REFERENCES Seances(id_seance) ON DELETE CASCADE,
+    date_reservation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    prix_total       DECIMAL(3,2),
+    places_reservees TEXT, 
+    CONSTRAINT unique_seat_per_session UNIQUE (id_seance, places_reservees)
+);
+
+
+CREATE TABLE IF NOT EXISTS Incidents (
+    id_incident  SERIAL PRIMARY KEY,
+    id_salle     INT NOT NULL REFERENCES Salles(id_salle) ON DELETE CASCADE,
+    description  TEXT NOT NULL,
+    date_signalement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    resolu       BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS Contact (
+    id_contact  SERIAL PRIMARY KEY,
+    nom_utilisateur VARCHAR(255), 
+    sujet       VARCHAR(255) NOT NULL,
+    message     TEXT NOT NULL,
+    date_envoi  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
