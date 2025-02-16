@@ -20,3 +20,13 @@ CREATE TABLE IF NOT EXISTS Films (
     affiche_url TEXT,
     note        INT
 );
+
+CREATE TABLE IF NOT EXISTS Salles (
+    id_salle     SERIAL PRIMARY KEY,
+    nom_cinema   VARCHAR(255) NOT NULL,  
+    adresse      TEXT,                  
+    telephone    VARCHAR(20),          
+    horaires     TEXT,                   
+    nombre_places INT NOT NULL,          
+    qualite      VARCHAR(50)            
+);
