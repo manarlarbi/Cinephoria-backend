@@ -14,8 +14,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/inscription", authRoutes);
-app.use("/connexion", authRoutes); 
+app.use("/auth", authRoutes);
 app.use("/films", filmsRoutes);
 app.use("/seances", seancesRoutes);
 app.use("/salles", sallesRoutes);
