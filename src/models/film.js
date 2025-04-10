@@ -1,4 +1,4 @@
-const pool = require("../db/pool");
+const {pool} = require("../db/database");
 
 class Film {
   constructor({ id_film, titre, description, duree, genre, age_minimum, affiche_url, note }) {
@@ -49,6 +49,15 @@ class Film {
       return null;
     }
   }
-}
+
+static async getById(id_film){
+  const query="SELECT * FROM Films WHERE id_film = $1";
+  const {rows}=await pool.query(query,[id_film]);
+  if (rows[0]){
+    return new Film(rows[0]);
+  }else{
+    return null;
+  }
+}  }   
 
 module.exports = Film;

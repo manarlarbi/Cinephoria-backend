@@ -1,4 +1,4 @@
-jest.mock("../db/pool", () => ({
+jest.mock("../db/database", () => ({
     query: jest.fn(),
   }));
   
@@ -10,7 +10,7 @@ jest.mock("../db/pool", () => ({
   jest.mock("jsonwebtoken", () => ({
     sign: jest.fn(),
   }));
-  const pool = require("../db/pool");
+  const pool = require("../db/database");
   const bcrypt = require("bcrypt");
   const jwt = require("jsonwebtoken");
   const { inscription, connexion } = require("../controllers/authController"); 

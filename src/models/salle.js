@@ -1,4 +1,4 @@
-const pool = require("../db/pool");
+const{pool} = require("../db/database");
 
 class Salle {
   constructor({ id_salle, nom_cinema, adresse, telephone, horaires, nombre_places, qualite }) {

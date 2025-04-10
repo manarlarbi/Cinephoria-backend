@@ -5,6 +5,11 @@ const authRoutes = require("./routes/authRoutes");
 const filmsRoutes = require("./routes/filmsRoutes");
 const seancesRoutes = require("./routes/seancesRoutes");
 const sallesRoutes = require("./routes/sallesRoutes");
+const reviewRoutes = require("./routes/avisRoutes");
+const { connectMongoose } = require("./db/database");
+require ("dotenv").config();
+connectMongoose();
+
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +23,7 @@ app.use("/auth", authRoutes);
 app.use("/films", filmsRoutes);
 app.use("/seances", seancesRoutes);
 app.use("/salles", sallesRoutes);
+app.use("/avis",reviewRoutes);
 
 app.listen(3033, () => {
   console.log("Serveur démarré sur http://localhost:3033");
