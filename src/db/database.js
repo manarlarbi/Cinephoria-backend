@@ -1,11 +1,12 @@
 const { default: mongoose } = require("mongoose");
 const { Pool } = require("pg");
+require ("dotenv").config();
 
 const pool = new Pool({
-  user: "postgres.wskitqeondoqqwdxmyhv",
-  host: "aws-0-eu-west-3.pooler.supabase.com",
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
   database: "postgres",
-  password: "cinephoria-studi",
+  password: process.env.DB_PASSWORD,
   port: 6543,
 });
 
