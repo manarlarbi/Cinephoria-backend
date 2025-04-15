@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const pool = require("../db/pool");
+const {pool} = require("../db/database");
 
 const SECRET_KEY = "manar_clef";
 

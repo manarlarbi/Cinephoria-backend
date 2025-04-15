@@ -1,11 +1,11 @@
 
 
 // j'ai mpcké ou faire une clone du ma fichier db/pool.js
-jest.mock("../db/pool", () => ({
+jest.mock("../db/database", () => ({
     query: jest.fn(),
   }));
   
-  const pool = require("../db/pool");
+  const pool = require("../db/database");
   const { getAllFilms,createFilm,deleteFilm } = require("../controllers/filmsController");
   
   describe("getAllFilms", () => {

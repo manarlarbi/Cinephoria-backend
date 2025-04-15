@@ -1,4 +1,4 @@
-const pool = require("../db/pool");
+const {pool} = require("../db/database");
 
 exports.createSeance = async (req, res) => {
   const { id_film, id_salle, heure_debut, heure_fin } = req.body;
