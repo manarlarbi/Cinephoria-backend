@@ -12,12 +12,33 @@ router.post("/addReview",async(req,res)=>{
         }
         
 });
-router.get("/getReviews/:filmId",async(req,res)=>{
+router.get("/getReviews",async(req,res)=>{
     try{
-        const reviews=await review.find({filmId:req.params.filmId});
+        const reviews=await review.find();
         res.status(200).json(reviews);
     }catch(err){
         res.status(400).json({error:"erreur lors de la récupération des avis ",err});
     }
 });
+router.get("/getReviews/:id", async (req, res) => {
+    try {
+      const reviews = await review.find({ filmId: req.params.id });
+      res.status(200).json(reviews);
+    } catch (err) {
+      res.status(400).json({ error: "Erreur lors de la récupération", err });
+    }
+  });
+  
+router.delete("/deleteReview/:id",async(req,res)=>{
+    try{
+        const deleteReview=await review.findByIdAndDelete(req.params.id);
+            if(!deleteReview){
+                return res.status(404).json({error:"avis non trouvé"});
+            }
+            res.status(200).json();
+        }catch(err){
+            res.status(400).json({error:err.message});
+        }
+}
+);
 module.exports =router;
