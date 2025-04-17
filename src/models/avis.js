@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema({
     userId:{type:Number,required:true},
     rating :{type:Number,min:0,max:5,required:true},
     comment:{type:String,required:true},
-    isValider:{type:Boolean,default:true},
+    isValider:{type:Boolean,default:false},
     createdAt:{type:Date,default:Date.now},
 },
 {timestamps:true}); 
