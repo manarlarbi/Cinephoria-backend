@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const review = require("../models/avis");
-router.post("/addReview", async (req, res) => {
+const { verifyToken, isAdmin, isEmploye } = require("../middlewares/authMiddleware");
+router.post("/addReview",verifyToken, async (req, res) => {
     try {
         const newreview = new review(req.body);
         const savedReview = await newreview.save();
@@ -20,7 +21,7 @@ router.get("/getReviews", async (req, res) => {
         const reviews = await review.find();
         res.status(200).json(reviews);
     } catch (err) {
-        res.status(400).json({ error: "erreur lors de la récupération des avis ", err });
+        res.status(500).json({ error: "erreur lors de la récupération des avis ", err });
     }
 });
 router.get("/getReviews/:id", async (req, res) => {
@@ -32,7 +33,7 @@ router.get("/getReviews/:id", async (req, res) => {
     }
 });
 
-router.delete("/deleteReview/:id", async (req, res) => {
+router.delete("/deleteReview/:id",verifyToken,isAdmin,isEmploye, async (req, res) => {
     try {
         const deleteReview = await review.findByIdAndDelete(req.params.id);
         if (!deleteReview) {
@@ -44,7 +45,7 @@ router.delete("/deleteReview/:id", async (req, res) => {
     }
 }
 );
-router.put("/updateReview/:id", async (req, res) => {
+router.put("/updateReview/:id",verifyToken,isAdmin,isEmploye, async (req, res) => {
     const { id } = req.params;
     const { isValider } = req.body;
     try {
