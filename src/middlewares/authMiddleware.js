@@ -21,4 +21,11 @@ function isAdmin(req,res,next){
     return res.status(403).json({ error: "Accès refusé : réservé à l'administrateur" });
   }
 }
-module.exports={verifyToken,isAdmin};
+function isEmploye(req,res,next){
+  if(req.user && req.user.role==="Employé"){
+    next();
+  }else{
+    return res.status(403).json({error:"Accès refusé : réservé a l'employé"});
+  }
+}
+module.exports={verifyToken,isAdmin, isEmploye};
