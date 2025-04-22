@@ -1,4 +1,4 @@
-const {pool} = require("../db/database");
+const { pool } = require("../db/database");
 
 exports.createSeance = async (req, res) => {
   const { id_film, id_salle, heure_debut, heure_fin } = req.body;
@@ -29,6 +29,37 @@ exports.getAllSeances = async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
+exports.getAvailablesessions = async (req, res) => {
+  const { id_film, nom_cinema, min_seats } = req.query;
+  if (!id_film || !nom_cinema || !min_seats) {
+    return res.status(400).json({ error: "Tous les champs sont requis" });
+  }
+  try {
+    const query = `
+      SELECT 
+  seance.id_seance, 
+  seance.heure_debut, 
+  seance.heure_fin, 
+  salle.id_salle, 
+  salle.nombre_places, 
+  salle.qualite
+FROM Seances AS seance
+JOIN Salles AS salle ON seance.id_salle = salle.id_salle
+WHERE seance.id_film = $1 
+  AND salle.nom_cinema = $2 
+  AND salle.nombre_places >= $3
+ORDER BY seance.heure_debut ASC;
+    `;
+    const values = [id_film, nom_cinema, min_seats];
+    console.log("Query:", query);
+    const { rows } = await pool.query(query, values);
+    console.log("Rows:", rows);
+    console.table(rows);
+    res.status(200).json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 exports.deleteSeance = async (req, res) => {
   const { id } = req.params;
@@ -39,3 +70,4 @@ exports.deleteSeance = async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
+

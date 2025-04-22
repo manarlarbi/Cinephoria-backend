@@ -16,6 +16,11 @@ class Salle {
     const { rows } = await pool.query(query);
     return rows.map(row => new Salle(row));
   }
+  static async getCinema(){
+    const query = "SELECT DISTINCT nom_cinema FROM Salles";
+    const {rows} = await pool.query(query);
+    return rows.map(row => row.nom_cinema);
+  }
 
   static async create(data) {
     const { nom_cinema, adresse, telephone, horaires, nombre_places, qualite } = data;
