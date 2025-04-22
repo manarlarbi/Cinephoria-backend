@@ -5,6 +5,7 @@ const { isAdmin, verifyToken } = require("../middlewares/authMiddleware");
 
 router.post("/creer",verifyToken,isAdmin, seancesController.createSeance);
 router.get("/", seancesController.getAllSeances);
+router.get("/available-sessions", seancesController.getAvailablesessions);
 router.delete("/:id",verifyToken,isAdmin, seancesController.deleteSeance);
 
 module.exports = router;

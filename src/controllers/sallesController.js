@@ -9,6 +9,14 @@ exports.getAllSalles = async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
+exports.getCinema = async (req,res)=>{
+  try{
+    const cinema = await Salle.getCinema();
+    res.status(200).json(cinema);
+  }catch(err){
+    res.staus(500).json({error:err.mrssage});
+  }
+}
 
 
 exports.createSalle = async (req, res) => {
