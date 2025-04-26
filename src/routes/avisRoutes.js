@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const review = require("../models/avis");
+const database = require("../db/database");
 const { verifyToken, isAdmin, isEmploye } = require("../middlewares/authMiddleware");
 router.post("/addReview",verifyToken, async (req, res) => {
     try {
@@ -27,13 +28,32 @@ router.get("/getReviews", async (req, res) => {
 router.get("/getReviews/:id", async (req, res) => {
     try {
         const reviews = await review.find({ filmId: req.params.id });
-        res.status(200).json(reviews);
+        const query='SELECT id_utilisateur ,nom_utilisateur from utilisateurs';
+        const User_names = (await database.pool.query(query)).rows;
+        /*console.table(User_names);*/
+        const ReviewWithUserNames = [];
+        for (let i=0; i<reviews.length;i++){
+            const avis= reviews[i];
+            let userName = null;
+            for (let j=0; j<User_names.length;j++){
+                if(avis.userId==User_names[j].id_utilisateur){
+                    userName=User_names[j].nom_utilisateur;
+                    break;
+            }
+        }
+        ReviewWithUserNames.push({
+            ...avis._doc,
+            nom_utilisateur: userName,
+        });
+    }
+
+        res.status(200).json(ReviewWithUserNames);
     } catch (err) {
         res.status(400).json({ error: "Erreur lors de la récupération", err });
     }
 });
 
-router.delete("/deleteReview/:id",verifyToken,isAdmin,isEmploye, async (req, res) => {
+router.delete("/deleteReview/:id",verifyToken,isEmploye, async (req, res) => {
     try {
         const deleteReview = await review.findByIdAndDelete(req.params.id);
         if (!deleteReview) {
@@ -45,7 +65,7 @@ router.delete("/deleteReview/:id",verifyToken,isAdmin,isEmploye, async (req, res
     }
 }
 );
-router.put("/updateReview/:id",verifyToken,isAdmin,isEmploye, async (req, res) => {
+router.put("/updateReview/:id",verifyToken,isEmploye, async (req, res) => {
     const { id } = req.params;
     const { isValider } = req.body;
     try {

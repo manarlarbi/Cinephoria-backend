@@ -1,10 +1,11 @@
-const Film = require ("../models/film.js");
+const Film = require("../models/film.js");
 
 exports.getAllFilms = async (req, res) => {
   try {
     const films = await Film.getAll();
     res.status(200).json(films);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
@@ -24,11 +25,12 @@ exports.createFilm = async (req, res) => {
       genre,
       age_minimum,
       affiche_url,
-      note,
+      note
     });
 
     res.status(201).json({ message: "Film créé avec succès", film: newFilm });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
@@ -45,9 +47,9 @@ exports.deleteFilm = async (req, res) => {
     if (!deletedFilm) {
       return res.status(404).json({ error: "Film non trouvé" });
     }
-
     res.status(200).json({ message: "Film supprimé avec succès" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
