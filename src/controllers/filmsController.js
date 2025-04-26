@@ -49,7 +49,6 @@ exports.deleteFilm = async (req, res) => {
     }
     res.status(200).json({ message: "Film supprimé avec succès" });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
