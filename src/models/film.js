@@ -41,11 +41,10 @@ class Film {
     try {
       const query = "DELETE FROM Films WHERE id_film = $1 RETURNING *";
       const { rows } = await pool.query(query, [id_film]);
-  
-      if (rows[0]) {
+    if (rows[0]) {
         return new Film(rows[0]);
-      } else {
-        throw new Error("Film pas trouvé");
+      }else {
+        return null;
       }
     } catch (err) {
       throw new Error(`Error supprimant le film: ${err.message}`);
