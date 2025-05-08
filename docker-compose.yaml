@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build: .
+    container_name: node-app
+    ports:
+      - "3033:3033"
+    depends_on:
+      - mongo
+    environment:
+      - MONGODB_URI=mongodb://admin:admin123@mongo:27017
+    env_file:
+      - ./src/.env
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
